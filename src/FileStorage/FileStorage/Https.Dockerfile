@@ -20,9 +20,6 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "FileStorage.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-# копируем сертификат безопасности
-WORKDIR /
-COPY ["infrastructure/https/aspnetapp.pfx", "https/"] 
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FileStorage.dll"]
